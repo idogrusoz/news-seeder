@@ -41,6 +41,6 @@
     ]
   },
   "devDependencies": {
-    "enzyme-adapter-react-16": "^1.15.5"
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1"
   }
 }
