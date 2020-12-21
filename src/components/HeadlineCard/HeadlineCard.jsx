@@ -19,6 +19,8 @@ const HeadlineCard = ({ article }) => {
 		},
 		image: {
 			width: '350px',
+			height: '233px',
+			objectFit: 'cover',
 		},
 		p: {
 			textAlign: 'left',
@@ -29,7 +31,7 @@ const HeadlineCard = ({ article }) => {
 
 	return (
 		<div style={styles.wrapper}>
-			<img src={urlToImage} alt={title} style={styles.image} />
+			<img src={urlToImage || process.env.PUBLIC_URL + '/social-seeder.jpeg'} alt={title} style={styles.image} />
 			<h3 style={styles.h2}>{title}</h3>
 			<h5 style={styles.h5}>Source: {source.name}</h5>
 			<p style={styles.p}>{description}</p>
