@@ -6,14 +6,44 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="App"
-      />
+        style="height: 100vh;"
+      >
+        <div
+          style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+        >
+          <div
+            class="css-3fvcat"
+          >
+            <div
+              class="css-1s6oywz"
+            />
+            <div
+              class="css-6eg5q1"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="App"
-    />
+      style="height: 100vh;"
+    >
+      <div
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+      >
+        <div
+          class="css-3fvcat"
+        >
+          <div
+            class="css-1s6oywz"
+          />
+          <div
+            class="css-6eg5q1"
+          />
+        </div>
+      </div>
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
