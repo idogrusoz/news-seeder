@@ -1,8 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 //Displays top headline. Takes an article object as props and displays the basic data
-const HeadlineCard = ({ article }) => {
+const HeadlineCard = ({ article, setSelected }) => {
     const { urlToImage, title, source, description } = article;
+    const history = useHistory();
+
+    const handleClick = () => {
+        setSelected(article);
+        history.push('/article');
+    };
+
     const styles = {
         wrapper: {
             width: '300px',
@@ -40,7 +48,7 @@ const HeadlineCard = ({ article }) => {
     };
 
     return (
-        <div style={styles.wrapper}>
+        <div onClick={handleClick} style={styles.wrapper}>
             <img src={urlToImage || process.env.PUBLIC_URL + '/social-seeder.jpeg'} alt={title} style={styles.image} />
             <h3 style={styles.h2}>{title}</h3>
             <h5 style={styles.h5}>

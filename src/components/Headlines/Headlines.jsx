@@ -3,7 +3,7 @@ import axios from 'axios';
 import HeadlineCard from '../HeadlineCard/HeadlineCard';
 import Loader from '../Loader/Loader';
 
-const Headlines = () => {
+const Headlines = ({ setSelected }) => {
     const [headlines, setHeadlines] = useState([]);
     const [loading, setLoading] = useState(true);
     const fetch = useCallback(async (token) => {
@@ -47,7 +47,7 @@ const Headlines = () => {
     ) : (
         <div style={styles.newsWrapper}>
             {headlines.map((article) => {
-                return <HeadlineCard article={article} key={article.url} />;
+                return <HeadlineCard article={article} key={article.url} setSelected={setSelected} />;
             })}
         </div>
     );
