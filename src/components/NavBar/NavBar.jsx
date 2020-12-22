@@ -1,11 +1,10 @@
 import React from 'react';
 import Search from '../Search/Search';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
+import './NavBar.css';
 
-const NavBar = () => {
+const NavBar = ({ setSelected }) => {
     const { pathname } = useLocation();
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const { push } = useHistory();
     const handleClick = () => {
         push('/');
@@ -16,14 +15,7 @@ const NavBar = () => {
             width: '180px',
             margin: '0 15px',
         },
-        navBar: {
-            width: '100%',
-            minHeight: '70px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: isTabletOrMobile ? 'column' : 'row',
-        },
+        navBar: {},
         buttonWrapper: {
             width: '210px',
             textAlign: 'center',
@@ -39,7 +31,7 @@ const NavBar = () => {
         },
     };
     return (
-        <section style={styles.navBar}>
+        <section className="nav-bar">
             <div>
                 <img
                     src="https://www.socialseeder.com/hubfs/assets/socialseeder.svg"
@@ -48,7 +40,7 @@ const NavBar = () => {
                     title="Logo Social Seeder"
                 ></img>
             </div>
-            <Search />
+            <Search setSelected={setSelected} />
             <div style={styles.buttonWrapper}>
                 {pathname !== '/' && (
                     <button onClick={handleClick} style={styles.button}>

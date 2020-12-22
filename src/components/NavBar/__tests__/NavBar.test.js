@@ -1,4 +1,4 @@
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import NavBar from '../NavBar';
 
 const mockLocation = jest.fn();
@@ -14,14 +14,6 @@ jest.mock('react-router-dom', () => ({
     }),
 }));
 
-const mockView = jest.fn();
-
-jest.mock('react-responsive', () => ({
-    useMediaQuery: () => ({
-        isTabletOrMobile: () => mockView,
-    }),
-}));
-
 describe('NavBar test', () => {
     it('returns home screen when clicked on the buton', async () => {
         mockLocation.mockReturnValue('/article');
@@ -29,11 +21,5 @@ describe('NavBar test', () => {
         const button = wrapper.find('button');
         button.simulate('click');
         expect(mockHistory).toBeCalled();
-    });
-    it('displays as a column in smaller screens', () => {
-        mockView.mockReturnValue(true);
-        const wrapper = shallow(<NavBar />);
-        const bar = wrapper.find('section');
-        expect(bar.prop('style').flexDirection).toEqual('column');
     });
 });

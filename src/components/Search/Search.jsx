@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useHistory } from 'react-router-dom';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-const Search = () => {
+const Search = ({ setSelected }) => {
     const [input, setInput] = useState('');
     const [results, setResults] = useState([]);
+    const history = useHistory();
+    //creates a reference to detect search component in the DOM
+    const searchRef = useRef();
 
     const handleChange = async (e) => {
         setInput(e.target.value);
@@ -27,7 +31,16 @@ const Search = () => {
         [input]
     );
 
+    // Makes sure that in case that user clicks outside the search bar, search results are removed from the screen
+    const pageClick = useCallback((e) => {
+        if (searchRef.current && !searchRef.current.contains(e.target)) {
+            handleClear();
+        }
+    }, []);
+
     useEffect(() => {
+        // adds event listener to catch click events on the page
+        window.addEventListener('mousedown', pageClick, false);
         //uses axios' cancelToken API in order to prevent memory leaks once the component unmounts.
         let token = axios.CancelToken.source();
         if (input.length >= 3) {
@@ -38,7 +51,16 @@ const Search = () => {
         return () => {
             token.cancel();
         };
-    }, [fetchResults, input]);
+    }, [fetchResults, input, pageClick]);
+
+    /* when user clicks on an article 
+    it clears input and results field, changes parent state for to selected article
+    and navifgates user to proper page*/
+    const handleClick = (article) => {
+        handleClear();
+        setSelected(article);
+        history.push('/article');
+    };
 
     const styles = {
         wrapper: {
@@ -85,7 +107,7 @@ const Search = () => {
     };
 
     return (
-        <div style={styles.wrapper}>
+        <div style={styles.wrapper} ref={searchRef}>
             <input value={input} onChange={handleChange} placeholder="Search news by topic" style={styles.input} />
             <div style={styles.icon}>
                 {input.length === 0 ? <FontAwesomeIcon icon={faSearch} /> : <FontAwesomeIcon icon={faTimes} onClick={handleClear} style={styles.clear} />}
@@ -94,7 +116,7 @@ const Search = () => {
                 {results.length > 0 &&
                     results.map((article) => {
                         return (
-                            <p style={styles.singleResult} key={article.url}>
+                            <p style={styles.singleResult} key={article.url} onClick={() => handleClick(article)}>
                                 {article.title}
                             </p>
                         );
