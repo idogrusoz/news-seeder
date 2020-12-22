@@ -25,7 +25,7 @@ export let mockNews = [
         url: 'https://www.mock-url2.be',
         urlToImage: null,
         publishedAt: '2020-12-21T08:00:30Z',
-        content: null,
+        content: 'some text <script>danger</script> [+42]',
     },
 ];
 
