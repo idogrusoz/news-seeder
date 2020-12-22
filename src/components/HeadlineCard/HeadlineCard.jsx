@@ -14,6 +14,7 @@ const HeadlineCard = ({ article }) => {
         h2: {
             margin: '0 auto',
             fontWeight: 400,
+            fontSize: '16px',
         },
         h5: {
             margin: '5px',
@@ -31,7 +32,10 @@ const HeadlineCard = ({ article }) => {
             textIndent: '2em',
             margin: '0 2px',
             color: 'grey',
-            fontSize: '14px',
+            fontSize: '13px',
+        },
+        span: {
+            fontWeight: 400,
         },
     };
 
@@ -39,7 +43,10 @@ const HeadlineCard = ({ article }) => {
         <div style={styles.wrapper}>
             <img src={urlToImage || process.env.PUBLIC_URL + '/social-seeder.jpeg'} alt={title} style={styles.image} />
             <h3 style={styles.h2}>{title}</h3>
-            <h5 style={styles.h5}>Source: {source.name}</h5>
+            <h5 style={styles.h5}>
+                <span style={styles.span}>Source: </span>
+                {source.name}
+            </h5>
             <p style={styles.p}>{description}</p>
         </div>
     );
