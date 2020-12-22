@@ -51,13 +51,13 @@ const Search = () => {
             borderStyle: 'solid',
             borderColor: 'grey',
             borderWidth: '0 0 1px 0',
-            padding: '10px',
-            width: '350px',
+            padding: '10px 5px',
+            width: '360px',
             fontFamily: 'Roboto',
             fontWeight: 400,
         },
         results: {
-            width: '350px',
+            width: '360px',
             zIndex: 1,
             position: 'absolute',
             maxHeight: '400px',
@@ -66,6 +66,7 @@ const Search = () => {
             boxShadow: '1px 10px 11px -1px rgba(0,0,0,0.49)',
             padding: '0 5px',
             scrollbarWidth: 'thin',
+            backgroundColor: '#ffffff',
         },
         singleResult: {
             fontFamily: 'Roboto',
@@ -85,7 +86,7 @@ const Search = () => {
 
     return (
         <div style={styles.wrapper}>
-            <input value={input} onChange={handleChange} placeholder="Search by topic" style={styles.input} />
+            <input value={input} onChange={handleChange} placeholder="Search news by topic" style={styles.input} />
             <div style={styles.icon}>
                 {input.length === 0 ? <FontAwesomeIcon icon={faSearch} /> : <FontAwesomeIcon icon={faTimes} onClick={handleClear} style={styles.clear} />}
             </div>
