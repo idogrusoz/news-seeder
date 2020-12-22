@@ -1,4 +1,3 @@
-import { useMediaQuery } from '@material-ui/core';
 import { mount, shallow } from 'enzyme';
 import NavBar from '../NavBar';
 
