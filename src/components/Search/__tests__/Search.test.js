@@ -15,10 +15,24 @@ jest.mock('axios', () => ({
         },
     },
 }));
+
+const mockLocation = jest.fn();
+const mockHistory = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: () => mockLocation(),
+    }),
+    useHistory: () => ({
+        push: () => mockHistory(),
+    }),
+}));
+
 describe('Search component test', () => {
     let wrapper;
     beforeAll(async () => {
-        wrapper = mount(<Search />);
+        wrapper = mount(<Search setSelected={jest.fn()} />);
         const input = wrapper.find('input');
         await act(async () => {
             input.simulate('change', { target: { value: 'var' } });
@@ -30,11 +44,20 @@ describe('Search component test', () => {
         expect(results.length).not.toBe(0);
     });
     it('clears input on click', async () => {
-        await waitForComponentToPaint(wrapper);
         const clear = wrapper.find('FontAwesomeIcon');
         clear.simulate('click');
         await wrapper.update();
         const input = wrapper.find('input');
         expect(input.prop('value')).toEqual('');
+    });
+    it('redirects when a result is clicked', async () => {
+        const input = wrapper.find('input');
+        await act(async () => {
+            input.simulate('change', { target: { value: 'var' } });
+        });
+        await waitForComponentToPaint(wrapper);
+        const results = wrapper.find('p').at(0);
+        results.simulate('click');
+        expect(mockHistory).toBeCalled();
     });
 });
