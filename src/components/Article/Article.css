@@ -1,0 +1,12 @@
+.image {
+    width: 100%;
+    height: unset;
+    object-fit: cover;
+}
+
+@media screen and (min-width: 768px) {
+    .image {
+        width: 800px;
+        height: 458px;
+    }
+}
