@@ -66,7 +66,7 @@ describe('Search component test', () => {
 });
 describe('Search Error test', () => {
     it('renders Error Component', async () => {
-        mockPromise.mockRejectedValueOnce();
+        mockPromise.mockRejectedValueOnce(new Error('mockError'));
         const wrapper = await mount(<Search setSelected={mockSetSelected} />);
         const input = wrapper.find('input');
         await act(async () => {
