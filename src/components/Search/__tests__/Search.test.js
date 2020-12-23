@@ -4,8 +4,9 @@ import { act } from '@testing-library/react';
 import { mockNews, waitForComponentToPaint } from '../../resources/mockData';
 
 const mockResponse = { data: { articles: mockNews } };
+let mockPromise = jest.fn();
 jest.mock('axios', () => ({
-    get: () => Promise.resolve(mockResponse),
+    get: () => mockPromise(),
     CancelToken: {
         source: () => {
             return {
@@ -18,6 +19,7 @@ jest.mock('axios', () => ({
 
 const mockLocation = jest.fn();
 const mockHistory = jest.fn();
+const mockSetSelected = jest.fn();
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -31,8 +33,9 @@ jest.mock('react-router-dom', () => ({
 
 describe('Search component test', () => {
     let wrapper;
-    beforeAll(async () => {
-        wrapper = mount(<Search setSelected={jest.fn()} />);
+    beforeEach(async () => {
+        mockPromise.mockResolvedValueOnce(mockResponse);
+        wrapper = mount(<Search setSelected={mockSetSelected} />);
         const input = wrapper.find('input');
         await act(async () => {
             input.simulate('change', { target: { value: 'var' } });
@@ -58,6 +61,24 @@ describe('Search component test', () => {
         await waitForComponentToPaint(wrapper);
         const results = wrapper.find('p').at(0);
         results.simulate('click');
+        expect(mockHistory).toBeCalled();
+    });
+});
+describe('Search Error test', () => {
+    it('renders Error Component', async () => {
+        mockPromise.mockRejectedValueOnce();
+        const wrapper = await mount(<Search setSelected={mockSetSelected} />);
+        const input = wrapper.find('input');
+        await act(async () => {
+            input.simulate('change', { target: { value: 'var' } });
+        });
+        await waitForComponentToPaint(wrapper);
+        const errorPage = wrapper.find('ErrorPage');
+        await act(async () => {
+            errorPage.find('Button').simulate('click');
+        });
+        await waitForComponentToPaint(wrapper);
+        expect(input.prop('value')).toEqual('');
         expect(mockHistory).toBeCalled();
     });
 });

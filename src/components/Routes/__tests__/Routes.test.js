@@ -9,9 +9,14 @@ describe('Routes test', () => {
         const wrapper = mount(<Routes history={history} />);
         expect(wrapper.find('Headlines').length).toBeGreaterThan(0);
     });
-    it('reners Articles on /articles root', () => {
+    it('renders Articles on /articles root', () => {
         const history = createMemoryHistory({ initialEntries: ['/article'] });
         const wrapper = mount(<Routes history={history} selected={mockNews[0]} />);
         expect(wrapper.find('Article').length).toBeGreaterThan(0);
+    });
+    it('renders ErrorPage when article is null', () => {
+        const history = createMemoryHistory({ initialEntries: ['/article'] });
+        const wrapper = mount(<Routes history={history} selected={null} />);
+        expect(wrapper.find('ErrorPage').length).toBeGreaterThan(0);
     });
 });

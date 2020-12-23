@@ -3,18 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 const Search = ({ setSelected }) => {
     const [input, setInput] = useState('');
     const [results, setResults] = useState([]);
+    const [error, setError] = useState(false);
+
     const history = useHistory();
-    //creates a reference to detect search component in the DOM
+    //creates a reference to detect the search component in the DOM
     const searchRef = useRef();
 
+    //handles the user input
     const handleChange = async (e) => {
         setInput(e.target.value);
     };
 
+    // Clears user input from the search bar
     const handleClear = () => {
         setInput('');
     };
@@ -22,10 +27,17 @@ const Search = ({ setSelected }) => {
     const fetchResults = useCallback(
         async (token) => {
             try {
-                const response = await axios.get(`https://newsapi.org/v2/everything?q=${input}&apiKey=${process.env.REACT_APP_API_KEY}&pageSize=20`, token);
+                //Fetch articles those match with input value
+                /* Using enviroment variables to keep secrets like API_KEYs is not advised 
+            However, the good practice would be storing such data in the server , since there is not
+            one, API_KEY is put in the .env variables. The main purpose here is to demonstrate the knowledge
+            of useing enviroment variables and basic safety measures */
+                const response = await axios.get(`https://newsapi.org/v2/everything?q=${input}&apiKey=${process.env.REACT_APP_API_KEY}&pageSize=20`, {
+                    cancelToken: token,
+                });
                 setResults([...response.data.articles]);
-            } catch (error) {
-                console.log(error);
+            } catch (err) {
+                setError(true);
             }
         },
         [input]
@@ -44,6 +56,7 @@ const Search = ({ setSelected }) => {
         //uses axios' cancelToken API in order to prevent memory leaks once the component unmounts.
         let token = axios.CancelToken.source();
         if (input.length >= 3) {
+            // Calls the API on every change of user input as long as it is longer han 3 chars
             fetchResults(token.token);
         } else {
             setResults([]);
@@ -60,6 +73,12 @@ const Search = ({ setSelected }) => {
         handleClear();
         setSelected(article);
         history.push('/article');
+    };
+
+    // Function passed to ErrorPage to clear
+    const onClick = () => {
+        handleClear();
+        setError(false);
     };
 
     const styles = {
@@ -113,14 +132,18 @@ const Search = ({ setSelected }) => {
                 {input.length === 0 ? <FontAwesomeIcon icon={faSearch} /> : <FontAwesomeIcon icon={faTimes} onClick={handleClear} style={styles.clear} />}
             </div>
             <div style={styles.results}>
-                {results.length > 0 &&
+                {!error ? (
+                    results.length > 0 &&
                     results.map((article) => {
                         return (
                             <p style={styles.singleResult} key={article.url} onClick={() => handleClick(article)}>
                                 {article.title}
                             </p>
                         );
-                    })}
+                    })
+                ) : (
+                    <ErrorPage onClick={onClick} />
+                )}
             </div>
         </div>
     );
