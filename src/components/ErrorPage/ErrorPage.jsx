@@ -2,7 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from '../Button/Button';
 
-const ErrorPage = ({ onClick }) => {
+const refresh = () => {
+    window.location.reload();
+};
+
+const ErrorPage = ({ onClick = refresh }) => {
     const history = useHistory();
     const handleClick = () => {
         history.push('/');
