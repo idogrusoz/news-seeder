@@ -7,6 +7,7 @@ import Button from '../Button/Button';
 const NavBar = ({ setSelected }) => {
     const { pathname } = useLocation();
     const { push } = useHistory();
+    // OnClick function for the Home button
     const handleClick = () => {
         push('/');
     };
@@ -22,7 +23,6 @@ const NavBar = ({ setSelected }) => {
             textAlign: 'center',
         },
         button: {
-            fontFamily: 'Roboto',
             backgroundColor: '#37e8b8',
             border: 'none',
             color: '#fff',

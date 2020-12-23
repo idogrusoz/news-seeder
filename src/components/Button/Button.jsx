@@ -2,7 +2,6 @@ import React from 'react';
 
 const Button = ({ handleClick, label }) => {
     const style = {
-        fontFamily: 'Roboto',
         backgroundColor: '#37e8b8',
         border: 'none',
         color: '#fff',

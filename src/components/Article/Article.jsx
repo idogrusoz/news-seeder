@@ -8,7 +8,6 @@ const Article = ({ article }) => {
         wrapper: {
             maxWidth: '800px',
             margin: '0 auto',
-            fontFamily: 'Roboto',
         },
         h1: {
             marginBottom: '5px',
