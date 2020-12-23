@@ -37,7 +37,9 @@ const Search = ({ setSelected }) => {
                 });
                 setResults([...response.data.articles]);
             } catch (err) {
-                setError(true);
+                if (err.message) {
+                    setError(true);
+                }
             }
         },
         [input]
@@ -51,9 +53,10 @@ const Search = ({ setSelected }) => {
     }, []);
 
     useEffect(() => {
-        // adds event listener to catch click events on the page
+        setError(false);
+        // Adds event listener to catch click events on the page
         window.addEventListener('mousedown', pageClick, false);
-        //uses axios' cancelToken API in order to prevent memory leaks once the component unmounts.
+        // Uses axios' cancelToken API in order to prevent memory leaks once the component unmounts.
         let token = axios.CancelToken.source();
         if (input.length >= 3) {
             // Calls the API on every change of user input as long as it is longer han 3 chars
@@ -66,8 +69,8 @@ const Search = ({ setSelected }) => {
         };
     }, [fetchResults, input, pageClick]);
 
-    /* when user clicks on an article 
-    it clears input and results field, changes parent state for to selected article
+    /* When user clicks on an article 
+    it clears the input and results field, changes parent state for to selected article
     and navifgates user to proper page*/
     const handleClick = (article) => {
         handleClear();
@@ -76,7 +79,7 @@ const Search = ({ setSelected }) => {
     };
 
     // Function passed to ErrorPage to clear
-    const onClick = () => {
+    const handleError = () => {
         handleClear();
         setError(false);
     };
@@ -93,12 +96,11 @@ const Search = ({ setSelected }) => {
             borderColor: 'grey',
             borderWidth: '0 0 1px 0',
             padding: '10px 5px',
-            width: '360px',
-            fontFamily: 'Roboto',
+            width: '350px',
             fontWeight: 400,
         },
         results: {
-            width: '360px',
+            width: '350px',
             zIndex: 1,
             position: 'absolute',
             maxHeight: '400px',
@@ -110,7 +112,6 @@ const Search = ({ setSelected }) => {
             backgroundColor: '#ffffff',
         },
         singleResult: {
-            fontFamily: 'Roboto',
             fontWeight: 400,
             fontSize: 14,
             cursor: 'pointer',
@@ -129,6 +130,7 @@ const Search = ({ setSelected }) => {
         <div style={styles.wrapper} ref={searchRef}>
             <input value={input} onChange={handleChange} placeholder="Search news by topic" style={styles.input} />
             <div style={styles.icon}>
+                {/* When inut field is empty a magnifier icon is displayed and repleaced by a clickable 'X' once the user starts to type */}
                 {input.length === 0 ? <FontAwesomeIcon icon={faSearch} /> : <FontAwesomeIcon icon={faTimes} onClick={handleClear} style={styles.clear} />}
             </div>
             <div style={styles.results}>
@@ -136,13 +138,13 @@ const Search = ({ setSelected }) => {
                     results.length > 0 &&
                     results.map((article) => {
                         return (
-                            <p style={styles.singleResult} key={article.url} onClick={() => handleClick(article)}>
+                            <p style={styles.singleResult} key={article.url + article.title} onClick={() => handleClick(article)}>
                                 {article.title}
                             </p>
                         );
                     })
                 ) : (
-                    <ErrorPage onClick={onClick} />
+                    <ErrorPage onClick={handleError} />
                 )}
             </div>
         </div>

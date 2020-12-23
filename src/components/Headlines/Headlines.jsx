@@ -37,7 +37,7 @@ const Headlines = ({ setSelected }) => {
         };
     }, [fetch]);
 
-    // Resets the error status and allows to retry
+    // Resets the error status and forces a refresh
     const onClick = () => {
         setError(false);
         window.location.reload();

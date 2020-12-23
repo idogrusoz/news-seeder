@@ -1,11 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-//Displays top headline. Takes an article object as props and displays the basic data
+// Takes an article object as props and displays the basic data
 const HeadlineCard = ({ article, setSelected }) => {
     const { urlToImage, title, source, description } = article;
     const history = useHistory();
 
+    // OnClick function to redirect to the article details
     const handleClick = () => {
         setSelected(article);
         history.push('/article');
