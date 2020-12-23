@@ -2,6 +2,7 @@ import React from 'react';
 import Search from '../Search/Search';
 import { useLocation, useHistory } from 'react-router-dom';
 import './NavBar.css';
+import Button from '../Button/Button';
 
 const NavBar = ({ setSelected }) => {
     const { pathname } = useLocation();
@@ -41,13 +42,7 @@ const NavBar = ({ setSelected }) => {
                 ></img>
             </div>
             <Search setSelected={setSelected} />
-            <div style={styles.buttonWrapper}>
-                {pathname !== '/' && (
-                    <button onClick={handleClick} style={styles.button}>
-                        Home
-                    </button>
-                )}
-            </div>
+            <div style={styles.buttonWrapper}>{pathname !== '/' && <Button handleClick={handleClick} label="Home" />}</div>
         </section>
     );
 };
