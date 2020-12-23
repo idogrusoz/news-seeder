@@ -10,6 +10,7 @@
 -   [Screenshots](#screenshots)
 -   [Technologies](#technologies)
 -   [Setup](#setup)
+-   [Testing](#testing)
 -   [API](#api)
 -   [Status](#status)
 -   [Inspiration](#inspiration)
@@ -40,6 +41,18 @@ REACT_APP_API_KEY
 ```
 yarn
 yarn start
+```
+
+## Testing
+
+Librarues used:
+
+-   Enzyme -v3.11.0
+
+To test the application:
+
+```
+yarn test
 ```
 
 ## API
