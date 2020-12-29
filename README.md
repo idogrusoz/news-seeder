@@ -1,4 +1,4 @@
-![Travis build status](https://travis-ci.com/idogrusoz/social-seeder-assignment.svg?token=Ygmi8pFnudrDvxjusNcz&branch=main)
+![Travis build status](https://travis-ci.com/idogrusoz/news-seeder.svg?branch=main)
 
 # NewsSeeder
 
